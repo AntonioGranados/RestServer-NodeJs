@@ -36,7 +36,8 @@ const UsuarioSchema = Schema({
 
 UsuarioSchema.methods.toJSON = function() {
     //sacamos del Schema el version y el password y almacenamos los demas campos en usuario
-    const { __v, password, ...usuario } = this.toObject();
+    const { __v, password, _id, ...usuario } = this.toObject();
+    usuario.uid = _id; // cambiamos visualmente _id por uid
     return usuario;
 }
 

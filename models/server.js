@@ -14,6 +14,8 @@ class Server {
 
         //ruta de usuarios
         this.usuarioPath = '/api/usuarios';
+        //ruta de autenticacion
+        this.authPath = '/api/auth';
 
         //Conectar a la base de datos
         this.conectarBaseDeDatos();
@@ -43,8 +45,10 @@ class Server {
 
     //Método routes para definir las rutas
     routes() {
+        //Usamos una nueva ruta para definir las autenticaciones de usuario
+        this.app.use(this.authPath, require('../routes/auth.routes'));   
         //usamos el middleware de usuarioPath donde esta especificada la ruta con las acciones (get, post..)
-        this.app.use(this.usuarioPath, require('../routes/usuarios.routes'));   
+        this.app.use(this.usuarioPath, require('../routes/usuarios.routes'));
     }
 
     //Metodo para lanzar el servidor definiendo el puerto
