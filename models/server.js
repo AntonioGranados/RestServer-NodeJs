@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
+
 const { conexionABaseDeDatos } = require('../database/config.db');
 
 //creamos la clase server
@@ -18,7 +20,8 @@ class Server {
             buscar:     '/api/buscar',
             categorias: '/api/categorias',
             productos:  '/api/productos',
-            usuarios:   '/api/usuarios'
+            usuarios:   '/api/usuarios',
+            uploads:    '/api/uploads'
         }
 
         //Conectar a la base de datos
@@ -45,6 +48,13 @@ class Server {
 
         //directorio publico
         this.app.use(express.static('public'));
+
+        //Fileupload ó carga de archivos
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath: true //si el directorio no existe, lo crea automaticamente
+        }));
     }
 
     //Método routes para definir las rutas
@@ -59,6 +69,8 @@ class Server {
         this.app.use(this.paths.productos, require('../routes/productos.routes'));
         //usamos el middleware de usuarioPath donde esta especificada la ruta con las acciones (get, post..)
         this.app.use(this.paths.usuarios, require('../routes/usuarios.routes'));
+        //Usamos el middleware de uploads donde se especificaran las peticiones
+        this.app.use(this.paths.uploads, require('../routes/uploads.routes'));
     }
 
     //Metodo para lanzar el servidor definiendo el puerto

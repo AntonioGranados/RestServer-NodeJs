@@ -61,7 +61,7 @@ const buscarCategorias = async(terminoParaBuscar, res = response) => {
      const expresionRegular = new RegExp(terminoParaBuscar, 'i');
 
      //Si buscamos una categoria por su nombre y debe tener su estado true
-     const categorias = await Categoria.find({nombre: expresionRegular ,estado: true});
+     const categorias = await Categoria.find({nombre: expresionRegular, estado: true});
     
      res.json({
         resultados: categorias
